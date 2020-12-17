@@ -1,0 +1,19 @@
+{
+  "name": "frame-backend",
+  "version": "1.0.0",
+  "description": "backend for frame, a shopify dev challenge project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Roshan Pawar",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-winston": "^4.0.5",
+    "helmet": "^4.2.0",
+    "mongodb": "^3.6.3",
+    "rambda": "^6.4.0"
+  }
+}
