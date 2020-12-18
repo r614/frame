@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import { message, Row, Col, Layout, Button } from 'antd'
-import { useRouter } from 'next/router'
+import { Uploader } from '../../components/uploader'
+import { message, Row, Col, Layout } from 'antd'
 
+const { Header } = Layout
 
 const BACKEND_URL = process.env.BACKEND_URL || "0.0.0.0:4000"
 
@@ -26,9 +27,7 @@ const props = {
 	}
 };
 
-export default function Search() {
-	const router = useRouter()	
-
+export default function reverseImageSearch() {
   return (
     <div>
       <Head>
@@ -38,16 +37,9 @@ export default function Search() {
 	  <Layout>
       <Row type="flex" align="middle" style={{ minHeight: "100vh" }} justify="center">
       	<Col type="flex" align="middle" span={6} justify="center"> 
-		  <h1> Search </h1>
-		  <h3> Find public images with similar characteristics.</h3>
-		  <Row type="flex" gutter={{xs: 8, sm: 16, md: 24}}  justify="center"> 
-		  	<Col> 
-			  <Button
-			  type="primary"
-			  size="large"onClick={() => {router.push('/search/tags')}} > Tags </Button> </Col>
-			<Col><Button size="large" onClick={() => {router.push('/search/name')}} > Name </Button></Col>
-			<Col><Button size="large" onClick={() => {router.push('/search/image')}} > Image </Button></Col>
-		  </Row>
+		  <h1> Reverse Image Search </h1>
+		  <h3> powered by the magic of AI and TensorflowJS.</h3>
+		  <Uploader {...props} />
  		</Col>
       </Row>
 	  </Layout>

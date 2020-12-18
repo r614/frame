@@ -4,7 +4,7 @@ const { logger } = require('./logging')
 let database
 const connectMongo = async (dbName) => {
   try {
-    uri = process.env.MONGO_DB
+    let uri = process.env.MONGO_DB
     const client = await MongoClient.connect(uri, { useUnifiedTopology: true })
     database = client.db(dbName)
     logger.info('[Server Startup] Successfully connected to MongoDB Atlas')

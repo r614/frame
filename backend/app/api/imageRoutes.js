@@ -13,7 +13,7 @@ const declareImageRoutes = (app) => {
 
     router.post('/upload', uploadHandler)
     router.get('/', findHandler)
-    router.search('/search', searchHandler)
+    router.post('/search', searchHandler)
 
     app.use(route, router)
 

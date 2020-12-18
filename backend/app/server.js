@@ -2,6 +2,7 @@ const express = require('express')
 const compression = require('compression')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const { connectMongo } = require('./services/mongo')
 
@@ -15,7 +16,8 @@ const HOST = process.env.HOST || '0.0.0.0'
 
 // Create the basic app
 const app = express()
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '10mb'}))
+app.use(cors())
 
 if (process.env.NODE_ENV === 'production') {
   app.use(compression())
