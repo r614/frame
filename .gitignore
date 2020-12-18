@@ -2,14 +2,16 @@
 
 # dependencies
 */node_modules
+node_modules
 /.pnp
 .pnp.js
+package-lock.json
 
 # testing
 /coverage
 
 # next.js
-/.next/
+.next/
 /out/
 
 # production

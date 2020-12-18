@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  app-network:
+      driver: bridge
+
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test123
+    ports:
+      - 27018:27018
+    volumes:
+      - ./build/mongodb:/data/db
+    networks: 
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app/backend
+    volumes:
+      - ./backend:/usr/src/app/backend
+    networks:
+      - app-network
+    environment:
+      - MONGO_DB=mongodb://test:test123@localhost:27018
+    links:
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    working_dir: /usr/src/app/frontend
+    volumes:
+      - ./frontend:/usr/src/app/frontend
+    networks:
+      - app-network
+    environment:
+      - MONGO_DB=mongodb://test:test123@localhost:27018
+    links:
+      - mongodb
