@@ -108,8 +108,8 @@ const searchHandler = async (req, res) => {
 
   if (req.params.name) {
     searchQuery = R.pathOr("", ["params", "names"])(req);
-    query = { name: searchQuery } };
-  }
+    query = { name: searchQuery } 
+  };
 
   logger.info(JSON.stringify(query));
   let queryResult = await collection()

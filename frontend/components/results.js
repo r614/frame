@@ -10,7 +10,7 @@ const error = () => {
       gutter={[16, 16]}
       type="flex"
       align="middle"
-      style={{ minHeight: "78vh" }}
+      style={{ minHeight: "12vh" }}
     >
       <Col span={8} align="middle" style={{ minWidth: "100vw" }}>
         <p>
