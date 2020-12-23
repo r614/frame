@@ -1,4 +1,4 @@
-import { Form, Input, Button, Row, Col, Alert, Layout } from "antd";
+import { Form, Input, Button, Row, Col, Alert, Layout, Result } from "antd";
 import Head from "next/head";
 import React from "react";
 import FileBase64 from "react-file-base64";
@@ -6,6 +6,7 @@ const R = require("rambda");
 const axios = require("axios");
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://0.0.0.0:4000";
+let FRONTEND_URL;
 
 const formItemLayout = {
   labelCol: {
@@ -25,7 +26,15 @@ class UploadPage extends React.Component {
       errorMessage: "",
       success: false,
       successMessage: "",
+      links: [],
+      resHeight: "0vh",
     };
+  }
+
+  componentDidMount() {
+    FRONTEND_URL =
+      R.pathOr(null, ["location", "origin"], window) ||
+      process.env.FRONTEND_URL;
   }
 
   getFiles(files) {
@@ -44,12 +53,16 @@ class UploadPage extends React.Component {
     axios
       .post(`${BACKEND_URL}/upload`, formData)
       .then((res) => {
-        this.setState({
-          successMessage: res.data,
-          success: true,
-          error: false,
+        let links = [];
+        res.data.map((image) => {
+          if (image.protected) {
+            links.push(`${FRONTEND_URL}/image/protected/${image.id}`);
+          } else {
+            links.push(`${FRONTEND_URL}/image/${image.id}`);
+          }
         });
         console.log(res);
+        this.setState({ error: false, success: true, links });
       })
       .catch((err) => {
         this.throwError(err.message);
@@ -93,22 +106,9 @@ class UploadPage extends React.Component {
               links are only valid for 24hrs, though i doubt anyone's going to
               use this{" "}
             </p>
-            {this.state.success && (
-              <Alert
-                type="success"
-                message={this.state.successMessage}
-                banner
-                closable
-              />
-            )}
 
             {this.state.error && (
-              <Alert
-                type="error"
-                message={this.state.errorMessage}
-                banner
-                closable
-              />
+              <Alert type="error" message={this.state.errorMessage} banner />
             )}
 
             <Form
@@ -144,6 +144,15 @@ class UploadPage extends React.Component {
                 </Button>
               </Form.Item>
             </Form>
+            {this.state.success && (
+              <Result
+                status="success"
+                title={`Successfully uploaded ${R.length(
+                  this.state.links
+                )} images!`}
+                subTitle={`Links: \n ${this.state.links.join("\n")}`}
+              />
+            )}
           </Col>
         </Row>
       </Layout>

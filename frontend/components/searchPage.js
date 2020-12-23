@@ -1,27 +1,20 @@
 import Head from "next/head";
 const axios = require("axios");
-import { Row, Col, Layout, Button, Form } from "antd";
-const R = require("rambda");
+import { Row, Col, Layout, Button, Form, Input } from "antd";
+const { results } = require("./results")
 import React, { useState } from "react";
-import FileBase64 from "react-file-base64";
-const { results } = require("../../components/results");
-const { BACKEND_URL } = require('../../components/constants');
+const { BACKEND_URL } = require('./constants')
 
-export default function ReverseImageSearch() {
+function SearchPage(type, message, query) {
 
   const [pics, setPics] = useState([]);
   const [height, setHeight] = useState("100vh")
-  const [files, setFiles] = useState([])
   const sendSearchRequestAndRoute = async (values) => {
-
-    files.forEach((element, index) => {
-      files[index] = R.pick(["name", "base64"], element);
-    });
-
-    const req = { files }
-
+    const q = {params:{}}
+    q.params[query] = values[query]
+    console.log(`q: ${JSON.stringify(q)}`)
     axios
-      .post(`${BACKEND_URL}/reverse`, req, )
+      .post(`${BACKEND_URL}/search`, {}, q)
       .then((res) => {
         console.log(JSON.stringify(res.data));
         setPics(res.data)
@@ -29,10 +22,6 @@ export default function ReverseImageSearch() {
       })
       .catch((err) => console.log(err));
   };
-
-  const getFiles = (files) =>  {
-    setFiles(files);
-  }
 
   return (
     <div>
@@ -48,14 +37,14 @@ export default function ReverseImageSearch() {
           justify="center"
         >
           <Col type="flex" align="middle" span={6} justify="center">
-          <h1> Reverse Image Search </h1>
-          <h3> powered by the magic of AI and TensorflowJS.</h3>
+            <h1>{ `Search | ${type}` }</h1>
+            <p>
+              {`${message}`}
+            </p>
             <Form onFinish={sendSearchRequestAndRoute}>
-                <FileBase64
-                  multiple={true}
-                  onDone={getFiles}
-                  style={{ maxWidth: "50" }}
-                />
+              <Form.Item name={query} label="">
+                <Input placeholder={`space separated ${query}s yield best results`}></Input>
+              </Form.Item>
               <Form.Item
                 wrapperCol={{
                   span: 12,
@@ -73,4 +62,8 @@ export default function ReverseImageSearch() {
       </Layout>
     </div>
   );
+}
+
+module.exports = { 
+    SearchPage
 }

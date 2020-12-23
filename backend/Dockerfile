@@ -14,7 +14,7 @@ RUN npm install -only=production
 COPY . .
 
 # Expose port
-EXPOSE 9400
+EXPOSE 4000
 
 # Set runtime configurations
 ENV NODE_ENV=testing

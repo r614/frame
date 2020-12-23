@@ -1,18 +1,18 @@
-const winston = require('winston')
-const expressWinston = require('express-winston')
+const winston = require("winston");
+const expressWinston = require("express-winston");
 
 module.exports.logger = winston.createLogger({
-  level: 'info',
+  level: "info",
   format: winston.format.json(),
   transports: [
     new winston.transports.Console({ format: winston.format.cli() }),
   ],
-})
+});
 
 module.exports.expressLogger = expressWinston.logger({
-  level: 'info',
+  level: "info",
   format: winston.format.json(),
   transports: [
     new winston.transports.Console({ format: winston.format.cli() }),
   ],
-})
+});
