@@ -107,8 +107,8 @@ const searchHandler = async (req, res) => {
   let query = { $text: { $search: searchQuery } };
 
   if (req.params.name) {
-    searchQuery = R.pathOr("", ["query", "names"])(req);
-    query = { $text: { $search: searchQuery } };
+    searchQuery = R.pathOr("", ["params", "names"])(req);
+    query = { name: searchQuery } };
   }
 
   logger.info(JSON.stringify(query));
@@ -143,7 +143,7 @@ const findHandler = async (req, res) => {
   const image = await collection().findOne(query);
 
   if (!R.isNil(image)) {
-    if (R.not(R.equals(image.password, password))) {
+    if (R.not(R.equals( R.isNil(image.password) ? "": image.password , password))) {
       logger.info(
         `Passwords dont match: ${password}, image password: ${image.password}`
       );
