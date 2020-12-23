@@ -4,8 +4,8 @@ import React from "react";
 import FileBase64 from "react-file-base64";
 const R = require("rambda");
 const axios = require("axios");
+const { BACKEND_URL } = require('../../components/constants')
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://0.0.0.0:4000";
 let FRONTEND_URL;
 
 const formItemLayout = {
